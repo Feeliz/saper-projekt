@@ -1,3 +1,12 @@
+from enum import Enum
+
+
+class BoardState(Enum):
+    PLAYING = 1  # gra się jeszcze nie skończyła
+    WIN = 2      # gracz wygrał (wszystkie pola nieposiadające miny zostały odkryte)
+    LOSS = 3     # gracz przegrał (zostało odkryte pole z miną)
+
+
 class Board:
     """ Klasa planszy - posiada szerokość, wysokość i ustaloną liczbę min """
 
@@ -16,18 +25,22 @@ class Board:
         self.flag = [[False for _ in range(width)] for _ in range(height)]
 
     def place_mines(self, start_position):
-        """ Funkcja rozstawiająca miny na planszy (z gwaracnją, że nie będzie miny na start_position ani dookoła """
+        """ Funkcja rozstawiająca miny na planszy (z gwaracnją, że nie będzie miny na start_position ani dookoła) """
 
         ...  # TODO
 
     def uncover(self, position):
-        """ Funkcja odkrywająca pole na danej pozycji
-            zwraca False jeżeli odkryto minę, w przeciwnym wypadku True """
+        """ Funkcja odkrywająca pole na danej pozycji, zwraca BoardState """
 
         ...  # TODO
 
     def get_mine_count(self, position):
         """ Funkcja zwracająca liczbe min dookoła pola na danej pozycji """
+
+        ...  # TODO
+
+    def place_flag(self, position):
+        """ Fukcja stawiająca flagę na danej pozycji """
 
         ...  # TODO
 
