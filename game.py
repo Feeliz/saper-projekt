@@ -1,9 +1,10 @@
 from enum import Enum
 import pygame as pg
-from board import Board
+from board import Board, BoardState
+from button import Button
 import config
 
-# TODO tutaj wczytać obrazki do planszy
+# TODO tutaj wczytać obrazki do planszy i okienka po grze
 
 
 class MouseClick(Enum):
@@ -32,5 +33,10 @@ class Game:
 
     def run(self):
         """ Fukcja zawierającą główną pętlę gry """
+
+        ...  # TODO
+
+    def run_post_game(self, game_outcome):
+        """ Funkcja odpalająca okienko końcowe po zakończeniu gry """
 
         ...  # TODO
