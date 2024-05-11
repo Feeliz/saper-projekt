@@ -3,12 +3,6 @@ import pygame as pg
 import config
 
 
-class GameDifficulty(Enum):
-    EASY = 1
-    MEDIUM = 2
-    HARD = 3
-
-
 class Program:
     """ Klasa programu - zarządza menu głównym oraz odpala gry """
 
