@@ -1,10 +1,9 @@
 from enum import Enum
 import pygame as pg
 from board import Board
+import config
 
-FPS = 60
-
-# TODO tutaj wczytać wszystkie obrazki
+# TODO tutaj wczytać obrazki do planszy
 
 
 class MouseClick(Enum):
@@ -15,8 +14,8 @@ class MouseClick(Enum):
 class Game:
     """ Klasa gry - posiada planszę i umożliwią interakcję z nią poprzez interfejs graficzny """
 
-    def __init__(self, surface, width, height, mine_count):
-        self.surface = surface
+    def __init__(self, width, height, mine_count):
+        self.surface = pg.display.set_mode((config.TILE_SIZE * width, config.TILE_SIZE * height))
         self.board = Board(width, height, mine_count)
         self.clock = pg.time.Clock()
 
