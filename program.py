@@ -1,8 +1,8 @@
 from enum import Enum
 import pygame as pg
+from game import Game
 from button import Button
 import config
-
 
 # TODO tutaj wczytać obrazki do menu
 
@@ -24,5 +24,8 @@ class Program:
 
     def run(self):
         """ Funkcja zawierająca główną pętle programu """
+
+        game = Game(10, 10, 20)  # TODO TYMCZASOWE !!!
+        game.run()
 
         ...  # TODO

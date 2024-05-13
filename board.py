@@ -18,6 +18,7 @@ class Board:
 
         # self.bomb[y][x] to True jeżeli pole na pozycji (y, x) posiada minę
         self.bomb = [[False for _ in range(width)] for _ in range(height)]
+        self.initialised = False
 
         # self.flag[y][x] to True jeżeli pole na pozycji (y, x) została położona flaga
         self.flag = [[False for _ in range(width)] for _ in range(height)]
@@ -32,12 +33,16 @@ class Board:
         safe_tiles = {start_position} | set(self.get_neighbors(start_position))
         candidates -= safe_tiles  # wyklucz startowe pola z puli możliwych pozycji bomb
 
-        mine_positions = random.sample(candidates, self.mine_count)
+        mine_positions = random.sample(sorted(candidates), self.mine_count)
         for y, x in mine_positions:
             self.bomb[y][x] = True
 
     def uncover(self, position):
         """ Funkcja odkrywająca pole na danej pozycji, zwraca BoardState """
+
+        if not self.initialised:
+            self.place_mines(position)
+            self.initialised = True
 
         y, x = position
         if self.flag[y][x]:  # jeżeli pole jest zaflagowane, to nie odkrywaj
