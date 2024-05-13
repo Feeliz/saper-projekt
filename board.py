@@ -54,6 +54,8 @@ class Board:
                 if not self.uncovered[new_y][new_x]:
                     self.uncover(neighbor_position)
 
+        return BoardState.PLAYING  # TODO sprawdzać czy gra sie przypadkiem nie skończyła
+
     def get_mine_count(self, position):
         """ Funkcja zwracająca liczbe min dookoła pola na danej pozycji """
 

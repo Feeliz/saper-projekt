@@ -4,7 +4,10 @@ from board import Board, BoardState
 from button import Button
 import config
 
-# TODO tutaj wczytać obrazki do planszy i okienka po grze
+img_bomb = pg.image.load("images/tiles/bomb.png").convert()
+img_covered = pg.image.load("images/tiles/covered.png").convert()
+img_flag = pg.image.load("images/tiles/flag.png").convert()
+imgs_uncovered = [pg.image.load(f"images/tiles/uncovered_{x}.png") for x in range(9)]
 
 
 class MouseClick(Enum):
@@ -20,10 +23,29 @@ class Game:
         self.board = Board(width, height, mine_count)
         self.clock = pg.time.Clock()
 
+    def get_image(self, position):
+        """ Funkcja pomocnicza zwracająca odpowiedni obrazek do pola o danej pozycji """
+
+        y, x = position
+        if not self.board.uncovered[y][x]:
+            if self.board.flag[y][x]:
+                return img_flag
+            return img_covered
+
+        if self.board.bomb[y][x]:
+            return img_bomb
+
+        bomb_count = self.board.get_mine_count(position)
+        return imgs_uncovered[bomb_count]
+
     def draw(self):
         """ Fukcja rysująca planszę """
 
-        ...  # TODO
+        for y in range(self.board.height):
+            for x in range(self.board.width):
+                screen_x, screen_y = config.TILE_SIZE * x, config.TILE_SIZE * y
+                image = self.get_image((y, x))
+                self.surface.blit(image, image.get_rect(center=(screen_x, screen_y)))
 
     def get_player_input(self):
         """ Funkcja wykrywająca wciśnięcie myszy przez gracza.
@@ -34,7 +56,10 @@ class Game:
     def run(self):
         """ Fukcja zawierającą główną pętlę gry """
 
-        ...  # TODO
+        self.draw()
+
+        pg.display.update()
+        self.clock.tick(config.FPS)
 
     def run_post_game(self, game_outcome):
         """ Funkcja odpalająca okienko końcowe po zakończeniu gry """
