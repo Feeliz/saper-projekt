@@ -25,7 +25,7 @@ class Program:
     def run(self):
         """ Funkcja zawierająca główną pętle programu """
 
-        game = Game(10, 10, 20)  # TODO TYMCZASOWE !!!
+        game = Game(10, 10, 5)  # TODO TYMCZASOWE !!!
         game.run()
 
         ...  # TODO

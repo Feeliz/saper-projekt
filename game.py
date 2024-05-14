@@ -37,7 +37,8 @@ class Game:
                 screen_x, screen_y = pg.mouse.get_pos()
                 y, x = self.into_board_position((screen_y, screen_x))
                 if event.button == 1:  # LMB
-                    self.board.uncover((y, x))
+                    x = self.board.uncover((y, x))
+                    print(x)
                 elif event.button == 3:  # RMB
                     self.board.set_flag((y, x))
 
@@ -69,11 +70,12 @@ class Game:
         """ Fukcja zawierającą główną pętlę gry """
 
         while self.running:  # TODO troche pozmieniać
-            self.draw()
-
-            pg.display.update()
-            self.clock.tick(config.FPS)
             self.process_input()
+
+            self.draw()
+            pg.display.update()
+            pg.display.set_caption(f"Pozostała liczba pól : {self.board.counter}")
+            self.clock.tick(config.FPS)
 
     def run_post_game(self, game_outcome):
         """ Funkcja odpalająca okienko końcowe po zakończeniu gry """

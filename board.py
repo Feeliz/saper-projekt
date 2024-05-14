@@ -15,7 +15,7 @@ class Board:
         self.width = width
         self.height = height
         self.mine_count = mine_count
-
+        self.counter = width*height - mine_count
         # self.bomb[y][x] to True jeżeli pole na pozycji (y, x) posiada minę
         self.bomb = [[False for _ in range(width)] for _ in range(height)]
         self.initialised = False
@@ -48,6 +48,7 @@ class Board:
         if self.flag[y][x]:  # jeżeli pole jest zaflagowane, to nie odkrywaj
             return
 
+        self.counter -= 1
         self.uncovered[y][x] = True
         if self.bomb[y][x]:
             return BoardState.LOSS
@@ -59,7 +60,10 @@ class Board:
                 if not self.uncovered[new_y][new_x]:
                     self.uncover(neighbor_position)
 
-        return BoardState.PLAYING  # TODO sprawdzać czy gra sie przypadkiem nie skończyła
+        if self.counter == 0:
+            return BoardState.WIN
+
+        return BoardState.PLAYING
 
     def get_mine_count(self, position):
         """ Funkcja zwracająca liczbe min dookoła pola na danej pozycji """
