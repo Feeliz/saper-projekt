@@ -1,4 +1,3 @@
-from enum import Enum
 import pygame as pg
 from board import Board, BoardState
 from button import Button
@@ -27,8 +26,9 @@ class Game:
         return y // config.TILE_SIZE, x // config.TILE_SIZE
 
     def process_input(self):
-        """ Funkcja reagująca na wejście gracza """
+        """ Funkcja reagująca na wejście gracza, zwraca obecny stan gry """
 
+        state = BoardState.PLAYING
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 self.running = False
@@ -37,10 +37,11 @@ class Game:
                 screen_x, screen_y = pg.mouse.get_pos()
                 y, x = self.into_board_position((screen_y, screen_x))
                 if event.button == 1:  # LMB
-                    x = self.board.uncover((y, x))
-                    print(x)
+                    state = self.board.uncover((y, x))
                 elif event.button == 3:  # RMB
                     self.board.set_flag((y, x))
+
+        return state
 
     def get_image(self, position):
         """ Funkcja pomocnicza zwracająca odpowiedni obrazek do pola o danej pozycji """
@@ -69,13 +70,18 @@ class Game:
     def run(self):
         """ Fukcja zawierającą główną pętlę gry """
 
-        while self.running:  # TODO troche pozmieniać
-            self.process_input()
+        state = BoardState.PLAYING
+        while self.running and state == BoardState.PLAYING:
+            state = self.process_input()
 
             self.draw()
             pg.display.update()
             pg.display.set_caption(f"Pozostała liczba pól : {self.board.counter}")
             self.clock.tick(config.FPS)
+
+        # jeżeli gra się normalnie zakończyłą (użytkownik nie wyszedł X-em), to odpal okienko po grze
+        if state != BoardState.PLAYING:
+            self.run_post_game(state)
 
     def run_post_game(self, game_outcome):
         """ Funkcja odpalająca okienko końcowe po zakończeniu gry """
