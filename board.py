@@ -45,8 +45,8 @@ class Board:
             self.initialised = True
 
         y, x = position
-        if self.flag[y][x]:  # jeżeli pole jest zaflagowane, to nie odkrywaj
-            return
+        if self.uncovered[y][x] or self.flag[y][x]:  # jeżeli pole jest już odkryte lub zaflagowane, to nie odkrywaj
+            return BoardState.PLAYING
 
         self.counter -= 1
         self.uncovered[y][x] = True
