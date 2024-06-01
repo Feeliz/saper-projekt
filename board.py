@@ -15,7 +15,8 @@ class Board:
         self.width = width
         self.height = height
         self.mine_count = mine_count
-        self.counter = width*height - mine_count
+        self.safe_tile_count = width * height - mine_count
+        self.counter = self.safe_tile_count
         # self.bomb[y][x] to True jeżeli pole na pozycji (y, x) posiada minę
         self.bomb = [[False for _ in range(width)] for _ in range(height)]
         self.initialised = False
@@ -29,7 +30,7 @@ class Board:
     def place_mines(self, start_position):
         """ Funkcja rozstawiająca miny na planszy (z gwaracnją, że nie będzie miny na start_position ani dookoła) """
 
-        candidates = {(y, x) for x in range(self.height) for y in range(self.width)}
+        candidates = {(y, x) for x in range(self.width) for y in range(self.height)}
         safe_tiles = {start_position} | set(self.get_neighbors(start_position))
         candidates -= safe_tiles  # wyklucz startowe pola z puli możliwych pozycji bomb
 
