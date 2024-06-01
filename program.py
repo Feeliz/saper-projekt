@@ -55,8 +55,6 @@ class Program:
             elif hard_button.is_clicked(events):
                 return "hard"
 
-            self.clock.tick(config.FPS)
-
     def run(self):
         """ Funkcja zawierająca główną pętle programu """
 
